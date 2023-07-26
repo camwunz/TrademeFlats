@@ -1,8 +1,14 @@
 from requests_html import HTMLSession
 from apprise import Apprise
 import time
+
+ROOMS_MIN = 4
+ROOMS_MAX = 4
+
 a = Apprise()
-a.add("discord://1123399583377145957/z25BS4vCfCu0zaOfKZ4QaIOdCYGtRR-o2pByeNnW0gsI3ypUSGwYuryJXQGHEzUNDiHV")
+
+a.add("discord://") # PUT DISCORD KEY HERE (https://support.discord.com/hc/en-us/articles/360045093012-Server-Integrations-Page)
+ 
 session = HTMLSession()
 found = set()
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0'}
@@ -26,7 +32,7 @@ def convert(text, link):
     return f'**{addy}**\n{ava}\nBedrooms: {bed}\nBathrooms: {bath}\nParking: {park}\n**{rent} (${rent_num})**\nLink: {link}'
 
 while True:
-    r = session.get('https://www.trademe.co.nz/a/property/residential/rent/search?suburb=2504&suburb=2280&suburb=2505&suburb=2101&suburb=2165&suburb=1993&suburb=2177&bedrooms_min=4&bedrooms_max=4&sort_order=expirydesc', headers=headers)
+    r = session.get(f'https://www.trademe.co.nz/a/property/residential/rent/search?suburb=2504&suburb=2280&suburb=2505&suburb=2101&suburb=2165&suburb=1993&suburb=2177&bedrooms_min={ROOMS_MIN}&bedrooms_max={ROOMS_MAX}&sort_order=expirydesc', headers=headers)
     r.html.render()
 
     flats = r.html.find('.tm-property-premium-listing-card__link')
